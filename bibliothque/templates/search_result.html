@@ -1,0 +1,14 @@
+{%block content%}
+
+<h>Search results</h>
+<ul>
+{%for livre in result%}
+<li>titre: {{livre.titre}}
+<p>auteur : {{livre.auteur}}</p>
+</li>
+
+
+{% endfor %}
+</ul>
+
+{%endblock%}
