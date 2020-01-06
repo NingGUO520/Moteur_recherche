@@ -1,4 +1,4 @@
-projet final cloud. Moteur de recherche d’une bibliotheque.
+## Moteur de recherche d’une bibliotheque.
 
 Dans ce projet, on appelle bibliotheque toute base de données de taille
 assez consequente de documents textuels. Un tel exemple est la base de Gutenberg disponible à l’adresse suivante : 
