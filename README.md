@@ -7,3 +7,10 @@ l’instar de la base Gutenberg, une bibliotheque peut contenir des dizaines de 
 manuelle impossible. Un moteur de recherche dans une base de donnees est une application web/mobile permettant a
 l’utilisateur d’acceder plus rapidement à un document textuel par recherche de mot-clef, ou par historique de recherche
 en lien avec ce document (systeme de best-seller, de suggestion de publicite ciblée, de favoris utilisateur, et cetera). 
+
+
+pour commencer, veuillez telecharger les livres dans la base de donnees d'abord :
+python manage.py downloadbooks <nombre_livres>
+
+et puis, pour lancer le server :
+python manage.py runserver 
