@@ -1,14 +1,13 @@
+{% extends 'base.html' %}
+
 {%block content%}
-
-<h>Search results</h>
-<ul>
+<h2>Search results</h2>
 {%for livre in result%}
-<li>titre: {{livre.titre}}
-<p>auteur : {{livre.auteur}}</p>
-</li>
+<div class="med">
 
+<a href="{{livre.id}}">Titre: {{livre.titre}}</a>
+<p>Auteur : {{livre.auteur}}</p>
+</div>
 
 {% endfor %}
-</ul>
-
 {%endblock%}

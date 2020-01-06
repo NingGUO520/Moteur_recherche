@@ -13,6 +13,13 @@ def livre_view(request):
 	context={'result':results}
 
 	return render(request,'search_result.html',context)
+
+def detail_view(request,livre_id):
+
+	livre = Livre.objects.get(id = livre_id)
+	context = {'livre': livre}
+	return render(request,'detail.html',context)
+
 		
 
 
