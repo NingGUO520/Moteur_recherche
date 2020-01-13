@@ -6,10 +6,7 @@ h3{
     font-size: 20px;
     line-height: 1.3;
 }
-a{
-	font-size: 50px;
-  color: #1a0dab;
-}
+
 
 p, li {
   font-size: 16px;    
@@ -29,6 +26,17 @@ body {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 3px solid #3d7e9a;
+}
+.trier{
+  color: #2d2d2d;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.indice{
+  color: #2d2d2d;
+  font-size: 14px;
+  padding-top: 10px;
 }
 textarea {
     font-size: .8rem;
@@ -51,11 +59,12 @@ input[type="submit"]{
 }
 /******************* search result ********************/
 
-a{
+.med a{
   font-size: 20px;
     line-height: 1.3;
   color: #1a0dab;
 }
+
 .st {
     line-height: 1.57;
     word-wrap: break-word;

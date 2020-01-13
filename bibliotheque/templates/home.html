@@ -2,7 +2,7 @@
 {%block content%}
 
 <h1> Bienvenue à la bibliothèque</h1>
-<form action='result' method="GET"> {% csrf_token %}
+<form action='results/pertinance' method="POST"> {% csrf_token %}
 	<input type="text" name="motcles" placeholder="Search.." >
 <input type="submit" name="Save"/>
 </form>

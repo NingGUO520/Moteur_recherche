@@ -20,6 +20,6 @@ from livres.views import home_view,livre_view,detail_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home_view.as_view()),
-    path('result',livre_view),
-    path('<int:livre_id>/',detail_view),
+    path('results/<str:methode>',livre_view),
+    path('livres/<int:livre_id>/',detail_view),
 ]

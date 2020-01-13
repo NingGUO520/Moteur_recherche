@@ -2,11 +2,18 @@
 
 {%block content%}
 <h2>Search results</h2>
+<span class="trier">Trier par : </span>
+<div class="indice">
+	
+	<a> nombre d’occurrences</a> - <a>indice de centralité</a>
+
+</div>
 {%for livre in result%}
 <div class="med">
 
-<a href="{{livre.id}}">Titre: {{livre.titre}}</a>
+<a href="../livres/{{livre.id}}" target="_blank" >Titre: {{livre.titre}}</a>
 <p>Auteur : {{livre.auteur}}</p>
+<p>{{livre.snippet}}</p>
 <span class="st"></span>
 </div>
 
