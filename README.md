@@ -9,7 +9,8 @@ l’utilisateur d’acceder plus rapidement à un document textuel par recherche
 en lien avec ce document (systeme de best-seller, de suggestion de publicite ciblée, de favoris utilisateur, et cetera). 
 
 ## Manuel
-Tout d'abord, il faut lancer le server postgresSQL sur une database 'postgres'
+Tout d'abord, il faut lancer le server postgresSQL sur une database 'postgres'.
+
 Dans le terminal, on fait
 ```bash
 python manage.py makemigrations
