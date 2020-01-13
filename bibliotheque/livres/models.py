@@ -1,13 +1,25 @@
 from django.db import models
 import collections
+import sys
 
 class LivreManager(models.Manager):
+	def __init(self):
+		self.n = self.count()
+		self.matrice_dis = calcul_distance()
+
 	def calcul_distance(self):
-		matrice_dis = {}
+		matrice_dis = [[sys.maxsize for _ in range(n+1)] for _ in range(n+1)]
 		map_id_dic = {}
 		for livre in self.all():
 			map_id_dic[livre.id] = get_dic(livre.contenu)
-		return map_id_dic
+
+		for i in range(1,range(n+1)):
+			for j in range(1,range(n+1)):
+				if i == j :
+					matrice_dis[i][j] = 0 
+				else :
+					matrice_dis[i][j] = dis_jaccard(map_id_dic[i],map_id_dic[j])
+		return matrice_dis
 
 
 
@@ -50,13 +62,6 @@ def dis_jaccard(dic1, dic2):
 def get_dic(txt):
 	return collections.Counter(txt.replace(',',' ').replace('.',' ').split())
 
-def calcul_distance():
-	matrice_dis = {}
-	map_id_dic = {}
-	for livre in Livre.objects.all():
-		map_id_dic[livre.id] = get_dic(livre.contenu)
-	return map_id_dic
-		
 
 
 

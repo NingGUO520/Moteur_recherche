@@ -2,17 +2,58 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.db.models import Q 
 from .models import Livre
-class home_view(TemplateView):
+def home_view(request):
+	count = Livre.objects.count()
+	context = {'count':count}
 	
-	template_name = 'home.html'
+	return render(request,'home.html',context)
 
 def livre_view(request,methode):
-	print('methode',methode)
-	query = request.POST.get('motcles')
-	results =  Livre.objects.filter(contenu__icontains=query) 
-	context={'result':results}
+	if methode == 'pertinance':
+		
+		query = request.GET.get('motcles')
+		results =  Livre.objects.filter(contenu__icontains=query) 
+		context={
+			'result':results,
+			'query':query
+		}
 
-	return render(request,'search_result.html',context)
+		return render(request,'search_result.html',context)
+	if methode == 'closeness':
+		query = request.GET.get('motcles')
+		results =  Livre.objects.filter(contenu__icontains=query) 
+		context={
+			'result':results,
+			'query':query,
+			'methode':methode
+
+		}
+
+		return render(request,'search_result.html',context)
+
+	if methode == 'betweenness':
+		query = request.GET.get('motcles')
+		results =  Livre.objects.filter(contenu__icontains=query) 
+		context={
+			'result':results,
+			'query':query,
+			'methode':methode
+		}
+
+		return render(request,'search_result.html',context)
+
+	if methode == 'pagerank':
+		query = request.GET.get('motcles')
+		results =  Livre.objects.filter(contenu__icontains=query) 
+		context={
+			'result':results,
+			'query':query,
+			'methode':methode
+
+		}
+
+		return render(request,'search_result.html',context)
+
 
 def detail_view(request,livre_id):
 

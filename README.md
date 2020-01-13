@@ -21,3 +21,6 @@ et puis, pour lancer le server :
 python manage.py runserver 
 ```
 
+à rendre 03 fevrier 
+petite presentation sur ce que on a fait/on n'a pas fait 20/01 
+

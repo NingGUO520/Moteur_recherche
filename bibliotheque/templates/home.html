@@ -2,9 +2,10 @@
 {%block content%}
 
 <h1> Bienvenue à la bibliothèque</h1>
-<form action='results/pertinance' method="POST"> {% csrf_token %}
+<form action='results/pertinance' method="GET">
 	<input type="text" name="motcles" placeholder="Search.." >
 <input type="submit" name="Save"/>
 </form>
+<p>Il y a {{count}} livres total dans la bilbiothèque</p>
 
  {%endblock%}

@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
 {%block content%}
-<h2>Search results</h2>
+<h2>Search results for "{{query}}" </h2>
 <span class="trier">Trier par : </span>
 <div class="indice">
 	
-	<a> nombre d’occurrences</a> - <a>indice de centralité</a>
+	<a href="pertinance?motcles={{query}}&Save=Envoyer"> nombre d’occurrences</a> - <a href="closeness?motcles={{query}}&Save=Envoyer">closeness</a> - <a href="betweenness?motcles={{query}}&Save=Envoyer">betweenness</a> - <a href="pagerank?motcles={{query}}&Save=Envoyer">pagerank</a>
 
 </div>
 {%for livre in result%}
 <div class="med">
 
-<a href="../livres/{{livre.id}}" target="_blank" >Titre: {{livre.titre}}</a>
+<a href="../livres/{{livre.id}}"  >Titre: {{livre.titre}}</a>
 <p>Auteur : {{livre.auteur}}</p>
 <p>{{livre.snippet}}</p>
 <span class="st"></span>
