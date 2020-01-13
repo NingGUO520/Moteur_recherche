@@ -10,6 +10,14 @@ en lien avec ce document (systeme de best-seller, de suggestion de publicite cib
 
 ## Manuel
 Tout d'abord, il faut lancer le server postgresSQL sur une database 'postgres'
+Dans le terminal, on fait
+```bash
+python manage.py makemigrations
+```
+et puis
+```bash
+python manage.py migrate
+```
 
 pour commencer, veuillez telecharger les livres dans la base de donnees d'abord :
 ```bash
