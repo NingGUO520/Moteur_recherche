@@ -21,9 +21,11 @@ def result_view(request,methode):
 		}
 
 		return render(request,'search_result.html',context)
-	if methode == 'closeness':
+	else:
 		query = request.GET.get('motcles')
-		results =  Livre.objects.filter(contenu__icontains=query) 
+		listlivres =  Livre.objects.filter(contenu__icontains=query) 
+		results_id =  Livre.objects.sort_by(listlivres,methode)
+		results = [ Livre.objects.get(id = i) for i in results_id]
 		context={
 			'result':results,
 			'query':query,
@@ -32,30 +34,6 @@ def result_view(request,methode):
 		}
 
 		return render(request,'search_result.html',context)
-
-	if methode == 'betweenness':
-		query = request.GET.get('motcles')
-		results =  Livre.objects.filter(contenu__icontains=query) 
-		context={
-			'result':results,
-			'query':query,
-			'methode':methode
-		}
-
-		return render(request,'search_result.html',context)
-
-	if methode == 'pagerank':
-		query = request.GET.get('motcles')
-		results =  Livre.objects.filter(contenu__icontains=query) 
-		context={
-			'result':results,
-			'query':query,
-			'methode':methode
-
-		}
-
-		return render(request,'search_result.html',context)
-
 
 def detail_view(request,livre_id):
 

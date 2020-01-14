@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from livres.models import Livre, MatriceDistance
+from livres.models import Livre, MatriceDistance,Classement
 import collections
 import requests
+import json
 
 
 
@@ -23,9 +24,46 @@ class Command(BaseCommand):
 			case.id_colonne = id2 
 			case.value = value 
 			case.save()
-		self.stdout.write('The matrix Jaccard has been caculated successfully')
+		self.stdout.write('The matrix Jaccard has been generated successfully')
+
+
+		# matrice contenant le poids minimal entre deux sommets
+		self.stdout.write('Calculating the matrix of the shortest path ... ')
+		matrice_plus_court = calcul_plus_court(list_id,matrice_dis)
+		self.stdout.write('matrix of the shortest path OK')
+
+
+		self.stdout.write('Sorting by closeness ...')
+		closeness_map = calcul_closeness(list_id,matrice_plus_court)
+		l = sorted(closeness_map.items(), key = lambda x: x[1],reverse = True)
+		l = [i[0] for i in l ]
+		classement = Classement()
+		classement.closeness = json.dumps(l)
+		classement.save()
+		self.stdout.write('The Sorting of closeness has been caculated successfully')
+
+
+def calcul_closeness(list_id,matrix_plus_court):
+	nb = len(list_id)
+	result = {}
+	for i in list_id:
+		somme = 0
+		for j in list_id:
+			somme += matrix_plus_court[(i,j)]
+		result[i] = nb/somme 
+	return result
+
+
+
 
 def calcul_plus_court(list_id,matrix):
+	m = matrix
+	for k in list_id:
+		for i in list_id:
+			for j in list_id:
+				m[(i,j)] = min( m[(i,j)], m[(i,k)] + m[(k,j)] )
+	return m 
+
 
 
 

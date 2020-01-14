@@ -24,10 +24,18 @@ pour commencer, veuillez telecharger les livres dans la base de donnees d'abord 
 ```bash
 python manage.py downloadbooks <nombre_livres>
 ```
-
-et puis, pour lancer le server :
+et puis, il faut calculer la matrice de distance et les classement par :
+``bash
+python manage.py calcul_matrice_jaccard
+```
+pour lancer le server :
 ```bash
 python manage.py runserver 
+```
+
+pour nettoyer les données dans model MatriceDistance et Classement:
+```bash
+python manage.py clean 
 ```
 
 à rendre 03 fevrier 

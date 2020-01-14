@@ -1,6 +1,7 @@
 from django.db import models
 import collections
 import sys
+import json
 
 class LivreManager(models.Manager):
 	
@@ -18,8 +19,24 @@ class LivreManager(models.Manager):
 			result.append(i)
 		return result
 
-	# def sort_by(self,listeLivres, methode):
-	# 	if methode == "closeness":
+	def sort_by(self,listeLivres, methode):
+		json_list = Classement.objects.all()[0].closeness
+		jsonDec = json.decoder.JSONDecoder()
+		closeness_list = jsonDec.decode(json_list)
+		# print("closeness_list",closeness_list)
+
+		if methode == "closeness":
+			livres_id = [ i.id for i in listeLivres]
+			# print("livres_id",livres_id)
+			result = []
+			for c in closeness_list:
+				if int(c) in livres_id:
+					result.append(c)
+			print("result length",len(result))
+
+
+			return result
+
 
 	# # def sort_by_closeness(self,listeLivres):
 		
@@ -51,6 +68,11 @@ class Livre(models.Model):
 
 	def snippet(self):
 		return self.contenu[1500:1800]+"..."
+
+class Classement(models.Model):
+	closeness = models.TextField()
+	betweenness = models.TextField()
+	pagerank = models.TextField()
 
 
 
