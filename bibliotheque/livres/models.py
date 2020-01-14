@@ -3,23 +3,38 @@ import collections
 import sys
 
 class LivreManager(models.Manager):
-	def __init(self):
-		self.n = self.count()
-		self.matrice_dis = calcul_distance()
+	
 
-	def calcul_distance(self):
-		matrice_dis = [[sys.maxsize for _ in range(n+1)] for _ in range(n+1)]
-		map_id_dic = {}
-		for livre in self.all():
-			map_id_dic[livre.id] = get_dic(livre.contenu)
+	def get_suggestions(self,id_target):
+		cases = MatriceDistance.objects.all().filter(id_ligne=id_target).exclude(id_colonne=id_target)
+		map_id_centralite = {}
+		for case in cases:
+			map_id_centralite[case.id_colonne] = case.value
+		l = sorted(map_id_centralite.items(), key = lambda x: x[1])
+		l = l[:3]
+		result = []
+		for x in l :
+			i,value = x 
+			result.append(i)
+		return result
 
-		for i in range(1,range(n+1)):
-			for j in range(1,range(n+1)):
-				if i == j :
-					matrice_dis[i][j] = 0 
-				else :
-					matrice_dis[i][j] = dis_jaccard(map_id_dic[i],map_id_dic[j])
-		return matrice_dis
+	# def sort_by(self,listeLivres, methode):
+	# 	if methode == "closeness":
+
+	# # def sort_by_closeness(self,listeLivres):
+		
+
+
+
+	
+
+class MatriceDistance(models.Model):
+	id_ligne = models.IntegerField()
+	id_colonne = models.IntegerField()
+	value = models.DecimalField(decimal_places=3, max_digits = 10)
+
+	def __str__(self):
+		return "("+str(self.id_ligne)+","+str(self.id_colonne)+") = "+str(self.value)
 
 
 
@@ -37,30 +52,6 @@ class Livre(models.Model):
 	def snippet(self):
 		return self.contenu[1500:1800]+"..."
 
-
-# fonction qui permet de calculer la distance de Jaccard entre deux documents	  
-# dic1 le premier document (livre)
-# dic2 le deuxième document (livre)
-def dis_jaccard(dic1, dic2):
-	somme1 = 0
-	somme2 = 0 
-	for mot in dic1 :
-		if not mot in dic2:
-			somme1 += dic1[mot]
-			somme2 += dic1[mot]
-		else :
-			somme1 += max(dic2[mot],dic1[mot]) - min(dic2[mot],dic1[mot]) 
-			somme2 += max(dic1[mot],dic2[mot])
-
-
-	for mot in dic2 :
-		if not mot in dic1:
-			somme1 += dic2[mot]
-			somme2 += dic2[mot]
-	return somme1/somme2
-
-def get_dic(txt):
-	return collections.Counter(txt.replace(',',' ').replace('.',' ').split())
 
 
 

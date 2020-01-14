@@ -2,7 +2,11 @@
 
 {%block content%}
 
-<h3>Titre: {{livre.titre}}<h3>
+<h3>Titre: {{livre.titre}}</h3>
 <p>Auteur : {{livre.auteur}}</p>
+<p>Voir d'autres livres similaires : </p>
+{%for livre in suggestions%}
+<li class="suggest"><a href="/livres/{{livre.id}} ">{{livre.titre}}</a></li>
+{% endfor %}
 <textarea  rows="55" cols="66"">{{livre.contenu}}</textarea>
 {%endblock%}

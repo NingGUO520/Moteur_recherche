@@ -8,7 +8,9 @@ def home_view(request):
 	
 	return render(request,'home.html',context)
 
-def livre_view(request,methode):
+def result_view(request,methode):
+
+
 	if methode == 'pertinance':
 		
 		query = request.GET.get('motcles')
@@ -58,7 +60,12 @@ def livre_view(request,methode):
 def detail_view(request,livre_id):
 
 	livre = Livre.objects.get(id = livre_id)
-	context = {'livre': livre}
+	suggestions = Livre.objects.get_suggestions(livre_id)
+	suggestions_livres = [ Livre.objects.get(id = i) for i in suggestions]
+	context = {
+	'livre': livre,
+	'suggestions':suggestions_livres
+	}
 	return render(request,'detail.html',context)
 
 		
