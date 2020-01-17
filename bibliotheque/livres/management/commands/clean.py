@@ -7,6 +7,6 @@ class Command(BaseCommand):
 
 	
 	def handle(self,*args,**kwargs):
-		MatriceDistance.objects.all().delete()
+		# MatriceDistance.objects.all().delete()
 		Classement.objects.all().delete()
 		self.stdout.write('the database of MatriceDistance and Classement have been cleaned')

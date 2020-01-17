@@ -4,6 +4,7 @@ from livres.models import Livre, MatriceDistance,Classement
 import collections
 import requests
 import json
+from algo.betweenness import calcul_betweenness 
 
 
 
@@ -12,20 +13,34 @@ class Command(BaseCommand):
 
 	
 	def handle(self,*args,**kwargs):
+		# seuil = 0.7
 		list_id = Livre.objects.values_list('id',flat=True) #flat True indique il returne seulement un value
 
 		self.stdout.write('Calculating the matrix Jaccard ... ')
 
 		matrice_dis = calcul_distance(list_id)
-		for k,value in matrice_dis.items():
-			id1,id2 = k 
-			case = MatriceDistance()
-			case.id_ligne = id1
-			case.id_colonne = id2 
-			case.value = value 
-			case.save()
+		# for k,value in matrice_dis.items():
+		# 	id1,id2 = k 
+		# 	case = MatriceDistance()
+		# 	case.id_ligne = id1
+		# 	case.id_colonne = id2 
+		# 	case.value = value 
+		# 	case.save()
 		self.stdout.write('The matrix Jaccard has been generated successfully')
 
+
+
+		self.stdout.write('Sorting by betweeness ...')
+
+		betweeness_map = calcul_betweenness(list_id,matrice_dis,0.75)
+		for k,v in betweeness_map.items():
+			print('k = ',k,"v=", v)
+		# closeness_map = calcul_closeness(list_id,matrice_plus_court)
+		l_between = sorted(betweeness_map.items(), key = lambda x: x[1],reverse = True)
+		print("between ",l_between)
+		l_between = [i[0] for i in l_between]
+		# classement.save()
+		self.stdout.write('The Sorting of betweeness has been caculated successfully')
 
 		# matrice contenant le poids minimal entre deux sommets
 		self.stdout.write('Calculating the matrix of the shortest path ... ')
@@ -35,12 +50,16 @@ class Command(BaseCommand):
 
 		self.stdout.write('Sorting by closeness ...')
 		closeness_map = calcul_closeness(list_id,matrice_plus_court)
-		l = sorted(closeness_map.items(), key = lambda x: x[1],reverse = True)
-		l = [i[0] for i in l ]
-		classement = Classement()
-		classement.closeness = json.dumps(l)
-		classement.save()
+		l_close = sorted(closeness_map.items(), key = lambda x: x[1],reverse = True)
+		l_close = [i[0] for i in l_close ]
 		self.stdout.write('The Sorting of closeness has been caculated successfully')
+
+
+
+		classement = Classement()
+		classement.betweenness = json.dumps(l_between)
+		classement.closeness = json.dumps(l_close)
+		classement.save()
 
 
 def calcul_closeness(list_id,matrix_plus_court):
@@ -55,16 +74,13 @@ def calcul_closeness(list_id,matrix_plus_court):
 
 
 
-
 def calcul_plus_court(list_id,matrix):
-	m = matrix
+	m = matrix.copy()
 	for k in list_id:
 		for i in list_id:
 			for j in list_id:
 				m[(i,j)] = min( m[(i,j)], m[(i,k)] + m[(k,j)] )
 	return m 
-
-
 
 
 def calcul_distance(list_id):
