@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.db.models import Q 
 from .models import Livre
+import requests
+import json
+
 def home_view(request):
 	count = Livre.objects.count()
 	context = {'count':count}
@@ -14,7 +17,10 @@ def result_view(request,methode):
 	if methode == 'pertinance':
 		
 		query = request.GET.get('motcles')
-		results =  Livre.objects.filter(contenu__icontains=query) 
+		#results =  Livre.objects.filter(contenu__icontains=query) 
+		results =  requests.get('http://localhost:8080/BooksAPI/search/'+query)
+		jsonDec = json.decoder.JSONDecoder()
+		results = jsonDec.decode(results.text)
 		context={
 			'result':results,
 			'query':query

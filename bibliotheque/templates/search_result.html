@@ -7,8 +7,10 @@
 	
 	<a href="pertinance?motcles={{query}}&Save=Envoyer"> nombre d’occurrences</a> - <a href="closeness?motcles={{query}}&Save=Envoyer">closeness</a> - <a href="betweenness?motcles={{query}}&Save=Envoyer">betweenness</a> - <a href="pagerank?motcles={{query}}&Save=Envoyer">pagerank</a>
 
+
+	<p>Auteur : {{result}}</p>
 </div>
-{%for livre in result%}
+<!--{%for livre in result%}
 <div class="med">
 
 <a href="../livres/{{livre.id}}"  >Titre: {{livre.titre}}</a>
@@ -21,4 +23,6 @@
 
 
 {% endfor %}
+
+-->
 {%endblock%}
