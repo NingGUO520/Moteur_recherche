@@ -20,13 +20,20 @@ class LivreManager(models.Manager):
 		return result
 
 	def sort_by(self,listeLivres, methode):
-		json_list = Classement.objects.all()[0].closeness
-		jsonDec = json.decoder.JSONDecoder()
-		closeness_list = jsonDec.decode(json_list)
-		# print("closeness_list",closeness_list)
 
+		# recuperer closeness_list
+		json_list_c = Classement.objects.all()[0].closeness
+		jsonDec = json.decoder.JSONDecoder()
+		closeness_list = jsonDec.decode(json_list_c)
+
+		# recuperer betweenness list
+		json_list_b = Classement.objects.all()[0].betweenness
+		betweenness_list = jsonDec.decode(json_list_b)
+
+
+		livres_id = [ i.id for i in listeLivres] 
 		if methode == "closeness":
-			livres_id = [ i.id for i in listeLivres]
+			
 			# print("livres_id",livres_id)
 			result = []
 			for c in closeness_list:
@@ -37,9 +44,16 @@ class LivreManager(models.Manager):
 
 			return result
 
+		if methode == "betweenness":
+			result = []
+			for c in betweenness_list:
+				if int(c) in livres_id:
+					result.append(c)
+			print("result length",len(result))
 
-	# # def sort_by_closeness(self,listeLivres):
-		
+
+			return result
+
 
 
 
