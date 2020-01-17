@@ -38,6 +38,26 @@ pour nettoyer les données dans model MatriceDistance et Classement:
 python manage.py clean 
 ```
 
+
+Configuration Eclipse TomCat 9.0
+
+Eclipse
+
+1. Télécharger Eclipse IDE - for Entrerpise J2EE après téléchargement d'eclipse installer
+
+Tomcat 9.0
+
+1. Installer les sources de tomcat 9.0
+2. Créer un nouveau serveur Tomcat 9.0   (File -> New -> Other -> Server) pointant vers les sources de tomcat et le jdk (1.8)
+
+Création projet :
+
+File -> New -> Dynamic Web Project
+
+Choisir Apache Tomcat v9.0 pour TargetRuntime -> Next -> Next : cocher generate web.xml deployment descriptor
+
+## Rendu
+
 à rendre 03 fevrier 
 petite presentation sur ce que on a fait/on n'a pas fait 20/01 
 
