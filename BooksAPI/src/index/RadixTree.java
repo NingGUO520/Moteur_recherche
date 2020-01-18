@@ -58,11 +58,15 @@ public class RadixTree {
 		for (Entry<String, ArrayList<Coord>> entry : f.getIndex().entrySet()) {
 			String key = entry.getKey();
 			ArrayList<Coord> coords = entry.getValue();
+			if (key.equals("people")) {
+				System.out.println("");
+			}
 			addElement(root, key,id, coords);
 		}
 	}
 
 	private void addElement(Node n, String str,int id,ArrayList<Coord>coords) {
+		
 		// basis
 		if (n.edges.isEmpty()) {
 			Map<Integer, ArrayList<Coord>> books = new HashMap<Integer,ArrayList<Coord>>();
@@ -70,7 +74,6 @@ public class RadixTree {
 			Node child = new Node(books);
 			Edge e = new Edge(child, str);
 			n.edges.add(e);
-			return;
 		} else {
 			int ind = 0;
 			Edge edit = null;
@@ -89,7 +92,6 @@ public class RadixTree {
 				Node child = new Node(books);
 				Edge edge = new Edge(child, str);
 				n.edges.add(edge);
-				return;
 			} else {
 				// we decompose the str such as prefix and suffix
 				String prefix = str.substring(0, ind);
@@ -107,7 +109,9 @@ public class RadixTree {
 				// it exists and we only have to go to the target
 				else {
 					if(!edit.targetNode.books.isEmpty()) {
-						if(!edit.targetNode.books.containsKey(id)) edit.targetNode.books.put(id,coords);
+//						if(!edit.targetNode.books.containsKey(id)) {
+							edit.targetNode.books.put(id,coords);
+//						}
 					}
 					else {
 						addElement(edit.targetNode, suffix1,id,coords);
@@ -115,7 +119,6 @@ public class RadixTree {
 					
 				}
 			}
-			return;
 		}
 	}
 

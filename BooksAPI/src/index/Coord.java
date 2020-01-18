@@ -18,7 +18,7 @@ public class Coord{
 		return line;
 	}
 
-	public int getpos() {
+	public int getPos() {
 		return pos;
 	}
 	

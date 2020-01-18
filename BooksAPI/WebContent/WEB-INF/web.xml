@@ -9,4 +9,7 @@
     <servlet-name>BookServlet</servlet-name>
     <url-pattern>/search/*</url-pattern>
   </servlet-mapping>
+  <listener>
+  		<listener-class>servlet.ServletListener</listener-class>
+  </listener>
 </web-app>
