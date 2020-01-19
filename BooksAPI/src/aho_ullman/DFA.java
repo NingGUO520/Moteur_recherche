@@ -40,14 +40,14 @@ public class DFA {
 		
 		reachability= getReachability();	
 		
-		System.out.println("\n >>  Reachability table : \n");
-		for (int i = 0; i < reachability.length; i++) {
-			for (int j = 0; j < reachability.length; j++) {
-				if(reachability[i][j]) System.out.print(1);
-				else System.out.print(0);
-			}
-			System.out.println();
-		}
+//		System.out.println("\n >>  Reachability table : \n");
+//		for (int i = 0; i < reachability.length; i++) {
+//			for (int j = 0; j < reachability.length; j++) {
+//				if(reachability[i][j]) System.out.print(1);
+//				else System.out.print(0);
+//			}
+//			System.out.println();
+//		}
 		HashMap<Integer,Integer> map = getCharacterEnteredState();
 		int automata_final_state = a.getFinalState();
 		int automata_init_state = a.getInitState();
@@ -231,27 +231,27 @@ public class DFA {
 				}
 			}
 		}
+//		
+//		System.out.println("\n >>  Initiating State : \n");
+//		for (Integer i : init) {
+//			System.out.println(i);
+//		}
+//		
+//		System.out.println("\n >>  Accepting State : \n");
+//		for (Integer i : accept) {
+//			System.out.println(i);
+//		}
 		
-		System.out.println("\n >>  Initiating State : \n");
-		for (Integer i : init) {
-			System.out.println(i);
-		}
-		
-		System.out.println("\n >>  Accepting State : \n");
-		for (Integer i : accept) {
-			System.out.println(i);
-		}
-		
-		System.out.println("\nMinimized Automata : \n");
+//		System.out.println("\nMinimized Automata : \n");
 		for(int i = 0;i< n_trans.length;i++) {
 			boolean d = false;
 			for (int j = 0; j < n_trans[i].length; j++) {
 				if(n_trans[i][j]  != -1) {
 					d= true;
-					System.out.println(i +" " +n_trans[i][j] + " "+  (char)j);
+//					System.out.println(i +" " +n_trans[i][j] + " "+  (char)j);
 				}
 			}
-			if(d)	System.out.println();
+//			if(d)	System.out.println();
 		}
 
 	}

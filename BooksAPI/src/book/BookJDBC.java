@@ -13,7 +13,6 @@ import aho_ullman.DFA;
 import aho_ullman.RegEx;
 import aho_ullman.RegExTree;
 import aho_ullman.Text;
-import index.IndexingFile;
 import index.Radix;
 import index.Radix.Coordonnees;
 import index.Radix.RadixTree;
@@ -41,7 +40,7 @@ public class BookJDBC {
 
 			List<Map<String, Coordonnees>> mapIndexList = new ArrayList<Map<String, Coordonnees>>();
 
-			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre LIMIT 1");
+			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre");
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String contenu = rs.getString("contenu");
@@ -50,7 +49,6 @@ public class BookJDBC {
 			}
 
 			tree = radix.construireTree(mapIndexList);
-
 			rs.close();
 			stmt.close();
 			c.close();
@@ -70,27 +68,25 @@ public class BookJDBC {
 		return radix.rechercher(tree, pattern);
 	}
 
-	public Map<Integer, ArrayList<String>> getAutomataBooksResult(String pattern) {
-		Map<Integer, ArrayList<String>> books = new HashMap<Integer, ArrayList<String>>();
+	public Map<Integer, ArrayList<Integer>> getAutomataBooksResult(String pattern) {
+		Map<Integer, ArrayList<Integer>> books = new HashMap<Integer, ArrayList<Integer>>();
 		try {
 			RegEx regEx = new RegEx();
 			regEx.setRegEx(pattern);
-
+			int id = 1;
 			for (String text : booksContent) {
 				RegExTree tree = regEx.parse();
 				Automata a = new Automata();
 				Automata a_res = a.automata_complete(tree);
 				DFA dfa = new DFA(a_res);
 				Text t = new Text(text, dfa);
-				ArrayList<String> lines = t.getLines();
+				ArrayList<Integer> lines = t.getLines();
 				if (!lines.isEmpty()) {
-					books.put(booksContent.indexOf(text), lines);
+					books.put(id, lines);
 				}
-				return books;
-//		        for(String s : lines) {
-//		        	System.out.println(s);
-//		        }
+				id++;
 			}
+			return books;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

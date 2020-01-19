@@ -22,7 +22,6 @@ import aho_ullman.RegEx;
 import aho_ullman.RegExTree;
 import aho_ullman.Text;
 import book.BookJDBC;
-import index.Coord;
 import index.Radix.Coordonnees;
 import util.CheckInput;
 
@@ -51,10 +50,12 @@ public class BookServlet extends HttpServlet {
 			String json = new Gson().toJson(res);
 			JSONObject obj = new JSONObject(res);
 //			json_arr = new JSONObject(res);
-			System.out.println(obj.toString());
+//			System.out.println(obj.toString());
 			response.getOutputStream().println(json);
 		} else if (CheckInput.isRegExp(regExp)) {
-			Map<Integer, ArrayList<String>> res = jdbc.getAutomataBooksResult(regExp);
+			Map<Integer, ArrayList<Integer>> res = jdbc.getAutomataBooksResult(regExp);
+			String json = new Gson().toJson(res);
+			response.getOutputStream().println(json);
 		}
 
 	}

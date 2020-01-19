@@ -32,17 +32,17 @@ public class Text {
 		return list;
 	}
 
-	public ArrayList<String> getLines() throws FileNotFoundException, IOException {
-		ArrayList<String> list = new ArrayList<String>();
+	public ArrayList<Integer> getLines() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
 		ArrayList<String> acceptedWords = getAcceptedWord();
 		Scanner scanner = new Scanner(s);
 	    int line_number = 1;
 	    while (scanner.hasNextLine()) {
 	    	 String l = scanner.nextLine();
-		    	if(l!= "") {
+		    	if(!l.isEmpty()){
 				for (String w : acceptedWords) {
 					if (l.contains(w)) {
-						list.add(l);
+						list.add(line_number);
 						break;
 					}
 				}
