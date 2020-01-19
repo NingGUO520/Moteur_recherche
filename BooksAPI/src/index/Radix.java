@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import automate.Automate;
+
 import java.util.Map.Entry;
 
 public class Radix {
@@ -53,7 +56,7 @@ public class Radix {
 	}
 
 	public class Coordonnees{
-		int id;
+		public int id;
 		public ArrayList<Pair> coords;
 
 		public Coordonnees(int id, int l, int c) {
@@ -179,7 +182,7 @@ public class Radix {
 		}
 		return null;
 	}
-
+	
 
 	public RadixTree construireTree(List<Map<String,Coordonnees>> mapIndexList) {
 		RadixTree tree = new RadixTree();
@@ -241,6 +244,8 @@ public class Radix {
 		}
 		return mapIndex;
 	}
+	
+	
 
 //	public  RadixTree genererRadixTree(int id,String nomFichier) {
 //		System.out.println("  >> generer le tableau de cache ... ");
@@ -253,58 +258,54 @@ public class Radix {
 ////		return tree;
 //	}
 	
-	public void chercherMotif(RadixTree tree,String motif) {
-		List<Coordonnees> result = rechercher(tree,motif );
-		if(result!=null) {
-			System.out.println("les positions du mot sont : ");
-			System.out.println(result.toString());
-		}else {
-			System.out.println(" >>>> Ce mot n'existe pas dans ce texte");
-		}
-	}
+//	public void chercherMotif(RadixTree tree,String motif) {
+//		List<Coordonnees> result = rechercher(tree,motif );
+//		if(result!=null) {
+//			System.out.println("les positions du mot sont : ");
+//			System.out.println(result.toString());
+//		}else {
+//			System.out.println(" >>>> Ce mot n'existe pas dans ce texte");
+//		}
+//	}
 	
-	public void creerMapIndex(int id, String nomFichier) {
-		HashMap<String,Coordonnees> mapIndex = lireTexte(id,nomFichier);
-	}
-	
-	public static void main(String[] args) {
-		Radix t = new Radix();
-		Scanner scanner = null;
-		String motif = null;
-		String nomFichier = null ;
-		if (args.length!=0) {
-			if(args.length==2) {
-				motif = args[0];
-				nomFichier = args[1];
-			}else {
-				System.out.print("  >> Please enter two parameters: ");
-			}
-		} else {
-			scanner = new Scanner(System.in);
-			System.out.print("  >> Please enter file name: ");
-			nomFichier = scanner.next();
-		}
-		System.out.println("  >> Search word \""+motif+"\".");
-		System.out.println("  >> generer le tableau de cache ... ");
+//	public static void main(String[] args) {
+//		Radix t = new Radix();
+//		Scanner scanner = null;
+//		String motif = null;
+//		String nomFichier = null ;
+//		if (args.length!=0) {
+//			if(args.length==2) {
+//				motif = args[0];
+//				nomFichier = args[1];
+//			}else {
+//				System.out.print("  >> Please enter two parameters: ");
+//			}
+//		} else {
+//			scanner = new Scanner(System.in);
+//			System.out.print("  >> Please enter file name: ");
+//			nomFichier = scanner.next();
+//		}
+//		System.out.println("  >> Search word \""+motif+"\".");
+//		System.out.println("  >> generer le tableau de cache ... ");
 //		HashMap<String,Coordonnees> mapIndex = t.lireTexte(nomFichier);
-		System.out.println("  >> Generation du tableau a reussi ! ");
-		
-		/*debug*/
+//		System.out.println("  >> Generation du tableau a reussi ! ");
+//		
+//		/*debug*/
 //		for(Entry<String,Coordonnees> e :mapIndex.entrySet()) {
 //			System.out.println(e.getKey()+e.getValue().toString());
 //		}
-
-		System.out.println("  >> Construire le Radix Tree ... ");
+//
+//		System.out.println("  >> Construire le Radix Tree ... ");
 //		RadixTree tree = t.construireTree(mapIndex);
-		System.out.println("  >> Construction de Radix Tree a reussi ! ");
-		
-		//------------------------------------------------------------------------------
-		System.out.print("  >> Please enter a word: ");
-		motif = scanner.next();
-		//		if(t.rechercher(tree,motif )){
-		//			System.out.print(mapIndex.get(motif).toString());
-		//		}else {
-		//			System.out.println(" >>>> Ce mot n'existe pas dans ce texte");
+//		System.out.println("  >> Construction de Radix Tree a reussi ! ");
+//		
+//		//------------------------------------------------------------------------------
+//		System.out.print("  >> Please enter a word: ");
+//		motif = scanner.next();
+//				if(t.rechercher(tree,motif )){
+//					System.out.print(mapIndex.get(motif).toString());
+//				}else {
+//					System.out.println(" >>>> Ce mot n'existe pas dans ce texte");
 		//		}
 //		if(t.rechercher(tree,motif )!=null) {
 //			System.out.println(t.rechercher(tree,motif ).toString());
@@ -312,4 +313,3 @@ public class Radix {
 //			System.out.println(" >>>> Ce mot n'existe pas dans ce texte");
 //		}
 	}
-}
