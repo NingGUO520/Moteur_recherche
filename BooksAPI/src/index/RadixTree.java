@@ -58,7 +58,8 @@ public class RadixTree {
 		for (Entry<String, ArrayList<Coord>> entry : f.getIndex().entrySet()) {
 			String key = entry.getKey();
 			ArrayList<Coord> coords = entry.getValue();
-			if (key.equals("people")) {
+			if(key.equals("people")) System.out.println(coords.size());
+			if (key.startsWith("people")) {
 				System.out.println("");
 			}
 			addElement(root, key,id, coords);

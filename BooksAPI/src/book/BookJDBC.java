@@ -1,7 +1,5 @@
 package book;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,20 +8,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import aho_ullman.Automata;
 import aho_ullman.DFA;
 import aho_ullman.RegEx;
 import aho_ullman.RegExTree;
 import aho_ullman.Text;
-import index.Coord;
 import index.IndexingFile;
-import index.RadixTree;
+import index.Radix;
+import index.Radix.Coordonnees;
+import index.Radix.RadixTree;
 
 public class BookJDBC {
 
-	private RadixTree radixTree;
+	RadixTree tree;
+	Radix radix;
 	private List<String> booksContent;
 
 	public BookJDBC() {
@@ -34,25 +32,24 @@ public class BookJDBC {
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "daar");
 
 			stmt = c.createStatement();
+			radix = new Radix();
+			ResultSet count = stmt.executeQuery("SELECT COUNT(*)  AS count FROM livres_livre ");
 
-			radixTree = new RadixTree();	
-			ResultSet count = stmt.executeQuery("SELECT COUNT(*)  AS count FROM livres_livre");
-
-			while(count.next()) {
+			while (count.next()) {
 				booksContent = new ArrayList<String>(count.getInt("count"));
 			}
-			
-			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre;");
+
+			List<Map<String, Coordonnees>> mapIndexList = new ArrayList<Map<String, Coordonnees>>();
+
+			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre LIMIT 1");
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String contenu = rs.getString("contenu");
 				booksContent.add(contenu);
-				IndexingFile index = new IndexingFile(contenu);
-				if(id == 37) {
-					System.out.println();
-				}
-				radixTree.addIndexingFile(id, index);
+				mapIndexList.add(radix.lireTexte(id, contenu));
 			}
+
+			tree = radix.construireTree(mapIndexList);
 
 			rs.close();
 			stmt.close();
@@ -69,35 +66,43 @@ public class BookJDBC {
 		return booksContent;
 	}
 
-	public Map<Integer, ArrayList<Coord>> getRadixBooksResult(String pattern) {
-		Map<Integer, ArrayList<Coord>> books = radixTree.search(pattern);
-		return books;
+	public List<Coordonnees> getRadixBooksResult(String pattern) {
+		return radix.rechercher(tree, pattern);
 	}
-	
-	public Map<Integer,ArrayList<String>> getAutomataBooksResult(String pattern){
-		Map<Integer, ArrayList<String>> books = new HashMap<Integer,ArrayList<String>>();
+
+	public Map<Integer, ArrayList<String>> getAutomataBooksResult(String pattern) {
+		Map<Integer, ArrayList<String>> books = new HashMap<Integer, ArrayList<String>>();
 		try {
 			RegEx regEx = new RegEx();
 			regEx.setRegEx(pattern);
-			
-			for(String text : booksContent) {
+
+			for (String text : booksContent) {
 				RegExTree tree = regEx.parse();
 				Automata a = new Automata();
-		        Automata a_res = a.automata_complete(tree);
-		        DFA dfa = new DFA(a_res);
-		        Text t = new Text(text,dfa);
-		        ArrayList<String> lines = t.getLines();
-		        if(!lines.isEmpty()) {
-		        	books.put(booksContent.indexOf(text),lines);
-		        }
-		    	return books;
+				Automata a_res = a.automata_complete(tree);
+				DFA dfa = new DFA(a_res);
+				Text t = new Text(text, dfa);
+				ArrayList<String> lines = t.getLines();
+				if (!lines.isEmpty()) {
+					books.put(booksContent.indexOf(text), lines);
+				}
+				return books;
 //		        for(String s : lines) {
 //		        	System.out.println(s);
 //		        }
 			}
-		}catch (Exception e) {
-				e.printStackTrace();
-		}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
+
+//	public static void main(String[] args) {
+//		BookJDBC jdbc = new BookJDBC();
+//		List<Coordonnees> list = jdbc.getRadixBooksResult("people");
+//		list.remove(0);
+//		for(Coordonnees c :list ) {
+//			System.out.println(c);
+//		}
+//	}
 }

@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import com.google.gson.*;
 import aho_ullman.Automata;
 import aho_ullman.DFA;
 import aho_ullman.RegEx;
@@ -22,6 +23,7 @@ import aho_ullman.RegExTree;
 import aho_ullman.Text;
 import book.BookJDBC;
 import index.Coord;
+import index.Radix.Coordonnees;
 import util.CheckInput;
 
 /**
@@ -44,17 +46,13 @@ public class BookServlet extends HttpServlet {
 		String regExp = requestUrl.substring("/BooksAPI/search/".length());
 
 		if (CheckInput.isAlphabetic(regExp)) {
-			Map<Integer, ArrayList<Coord>> res = jdbc.getRadixBooksResult(regExp);
-			System.out.println(res.size());
-			JSONArray arr = new JSONArray();
-			arr.put(res);
-			JSONObject json_arr = null;
-			if (res != null) {
-				json_arr = new JSONObject(res);
-				response.getOutputStream().println(json_arr.toString());
-			} else {
-				response.getOutputStream().println("{}");
-			}
+			List<Coordonnees> res = jdbc.getRadixBooksResult(regExp);
+			res.remove(0);
+			String json = new Gson().toJson(res);
+			JSONObject obj = new JSONObject(res);
+//			json_arr = new JSONObject(res);
+			System.out.println(obj.toString());
+			response.getOutputStream().println(json);
 		} else if (CheckInput.isRegExp(regExp)) {
 			Map<Integer, ArrayList<String>> res = jdbc.getAutomataBooksResult(regExp);
 		}

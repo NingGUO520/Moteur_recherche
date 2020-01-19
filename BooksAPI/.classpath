@@ -15,5 +15,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="D:/Informatique/java-jar/java-json.jar"/>
 	<classpathentry kind="lib" path="D:/Informatique/java-jar/postgresql-42.2.9.jar"/>
+	<classpathentry kind="lib" path="D:/Informatique/java-jar/gson-2.6.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
