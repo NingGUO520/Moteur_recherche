@@ -55,7 +55,7 @@ public class Radix {
 
 	}
 
-	public class Coordonnees{
+	public class Coordonnees implements Comparable<Coordonnees>{
 		public int id;
 		public ArrayList<Pair> coords;
 
@@ -77,6 +77,16 @@ public class Radix {
 				r+=" ("+ p.ligne+","+p.col+") ";
 			}
 			return r;
+		}
+		@Override
+		public int compareTo(Coordonnees c) {
+			if (coords == null || c.coords == null) {
+			      return 0;
+			    }
+			
+			Integer size1 = coords.size();
+			Integer size2 = c.coords.size();
+			return size1.compareTo(size2);
 		}
 	}
 

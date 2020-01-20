@@ -13,15 +13,15 @@ def home_view(request):
 
 def result_view(request,methode):
 
+	query = request.GET.get('motcles')
+	httpResults =  requests.get('http://localhost:8080/BooksAPI/search/'+query)
+	jsonDec = json.decoder.JSONDecoder()
+	if httpResults:
+		httpResults = jsonDec.decode(httpResults.text)
+		results = [Livre.objects.get(id = res['id']) for res in httpResults]
+	else : results = []
 
 	if methode == 'pertinance':
-		query = request.GET.get('motcles')
-		httpResults =  requests.get('http://localhost:8080/BooksAPI/search/'+query)
-		jsonDec = json.decoder.JSONDecoder()
-		if httpResults:
-			httpResults = jsonDec.decode(httpResults.text)
-			results = [Livre.objects.get(id = res['id']) for res in httpResults]
-		else : results = []
 		context={
 			'result':results,
 			'query':query
@@ -29,17 +29,13 @@ def result_view(request,methode):
 
 		return render(request,'search_result.html',context)
 	else:
-		query = request.GET.get('motcles')
-		listlivres =  Livre.objects.filter(contenu__icontains=query) 
-		results_id =  Livre.objects.sort_by(listlivres,methode)
+		results_id =  Livre.objects.sort_by(results,methode)
 		results = [ Livre.objects.get(id = i) for i in results_id]
 		context={
 			'result':results,
 			'query':query,
 			'methode':methode
-
 		}
-
 		return render(request,'search_result.html',context)
 
 def detail_view(request,livre_id):
