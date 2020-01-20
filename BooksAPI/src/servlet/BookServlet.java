@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,9 +39,7 @@ public class BookServlet extends HttpServlet {
 		
 		List<Coordonnees> res = null;
 		if (CheckInput.isAlphabetic(regExp)) {
-			res = jdbc.getRadixBooksResult(regExp);
-			res.remove(0);
-			
+			res = jdbc.getRadixBooksResult(regExp).stream().distinct().collect(Collectors.toList()); ;
 		} else if (CheckInput.isRegExp(regExp)) {
 			res = jdbc.getAutomataBooksResult(regExp);
 		}

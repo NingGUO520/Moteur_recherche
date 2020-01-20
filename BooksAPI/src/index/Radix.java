@@ -126,12 +126,10 @@ public class Radix {
 	 * @param v
 	 */
 	public void insertion(RadixTree arbre, String mot,Coordonnees v) {
-
 		if(mot.isEmpty()) {
 			arbre.valeur.add(v);
 		}else{
 			if(arbre.est_feuille()) {
-
 				RadixTree nouvelle = new RadixTree(mot);
 				nouvelle.valeur.add(v);
 				arbre.fils.add(nouvelle);
@@ -141,12 +139,10 @@ public class Radix {
 				for(int i = 0; i< arbre.fils.size();i++) {
 					RadixTree fil = arbre.fils.get(i);
 					if(estPrefix(mot,fil.chars)){
-
 						insertion(fil,mot.substring(fil.chars.length()),v);
 						prefixCommun = true;
 					}else if(!prefixCommun(mot,fil.chars).isEmpty()) {
 						String commun = prefixCommun(mot,fil.chars);
-//						System.out.println("commun = "+ commun);
 						RadixTree nouvelle = new RadixTree(commun);
 						arbre.fils.add(nouvelle);
 						fil.chars = fil.chars.substring(commun.length());

@@ -52,7 +52,8 @@ public class BookJDBC {
 	}
 
 	public List<Coordonnees> getRadixBooksResult(String pattern) {
-		return radix.rechercher(tree, pattern);
+		List <Coordonnees> listCoords =  radix.rechercher(tree, pattern);
+		return listCoords;
 	}
 	
 	public List<Coordonnees> getAutomataBooksResult(String regExp){
@@ -68,7 +69,11 @@ public class BookJDBC {
 				}
 			}
 		}
-		
+		return merge(listCoords);
+	}
+	
+	
+	public List<Coordonnees> merge(List<Coordonnees> listCoords){
 		int i = 0;
 		while(i < listCoords.size()-1) {
 			int id = listCoords.get(i).id;

@@ -15,12 +15,13 @@ def result_view(request,methode):
 
 
 	if methode == 'pertinance':
-		
 		query = request.GET.get('motcles')
-		#results =  Livre.objects.filter(contenu__icontains=query) 
-		results =  requests.get('http://localhost:8080/BooksAPI/search/'+query)
+		httpResults =  requests.get('http://localhost:8080/BooksAPI/search/'+query)
 		jsonDec = json.decoder.JSONDecoder()
-		results = jsonDec.decode(results.text)
+		if httpResults:
+			httpResults = jsonDec.decode(httpResults.text)
+			results = [Livre.objects.get(id = res['id']) for res in httpResults]
+		else : results = []
 		context={
 			'result':results,
 			'query':query
