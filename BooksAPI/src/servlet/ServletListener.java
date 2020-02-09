@@ -13,6 +13,9 @@ import book.BookJDBC;
 @WebListener
 public class ServletListener implements ServletContextListener {
 
+	/**
+	 * Attend l'initialisation de BookJDBC(index et radix tree)
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext ctx = event.getServletContext();

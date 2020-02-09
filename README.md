@@ -32,7 +32,7 @@ pour lancer le server :
 ```bash
 python manage.py runserver 
 ```
-
+python
 pour nettoyer les données dans model MatriceDistance et Classement:
 ```bash
 python manage.py clean 

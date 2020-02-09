@@ -142,7 +142,7 @@ public class Radix {
 	}
 
 	/**
-	 * Inserer le mot mot et sa valeur dans l'arbre
+	 * Inserer le  mot et sa valeur dans l'arbre
 	 * 
 	 * @param arbre : arbre a inserer
 	 * @param mot   : le mot a inserer

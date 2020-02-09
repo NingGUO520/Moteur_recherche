@@ -20,26 +20,38 @@ public class BookJDBC {
 	RadixTree tree;
 	Radix radix;
 	List<Map<String, Coordonnees>> mapIndexList;
-	int limit = 1664;
+	int limit = 600;
 	int batchSize = 100;
+
+	/**
+	 * Instantiation de BookJDBC : indexage et construction du radix tree   
+	 */
 	public BookJDBC() {
 		Connection c = null;
 		Statement stmt = null;
 		try {
 			Class.forName("org.postgresql.Driver");
+			//connexion à la base de données
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "daar");
 			stmt = c.createStatement();
 			stmt.setFetchSize(batchSize);
 			radix = new Radix();
 			mapIndexList = new ArrayList<Map<String, Coordonnees>>();
-			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre LIMIT "+limit);
+			ResultSet rs = stmt.executeQuery("SELECT id,contenu FROM livres_livre LIMIT " + limit);
+			int i = 1;
 			for (int j = 0; j < limit; j = j + batchSize) {
 				while (rs.next()) {
+					//récupération de l'id du livre
 					int id = rs.getInt("id");
+					//récpération du contenu du livre
 					String contenu = rs.getString("contenu");
+					//ajout dans l'index global
 					mapIndexList.add(radix.lireTexte(id, contenu));
+					System.out.println(i);
+					i++;
 				}
-			    radix.construireTree(mapIndexList);
+				// construction de l'arbre radix
+				radix.construireTree(mapIndexList);
 			}
 			rs.close();
 			stmt.close();
@@ -52,11 +64,21 @@ public class BookJDBC {
 		System.out.println("Operation done successfully");
 	}
 
+	/**
+	 * Recherche d'un mot dans un radix tree et retourne ses coordonnées
+	 * @param pattern
+	 * @return list
+	 */
 	public List<Coordonnees> getRadixBooksResult(String pattern) {
 		List<Coordonnees> listCoords = radix.rechercher(radix.getRadixTree(), pattern);
 		return listCoords;
 	}
 
+	/**
+	 * Recherche des mots acceptés par la regExp et retourne leur coordonnées
+	 * @param regExp
+	 * @return
+	 */
 	public List<Coordonnees> getAutomataBooksResult(String regExp) {
 		List<Coordonnees> listCoords = new ArrayList<Coordonnees>();
 		RegEx regex = new RegEx();
@@ -70,9 +92,15 @@ public class BookJDBC {
 				}
 			}
 		}
-		return listCoords;
+		return merge(listCoords);
 	}
 
+	/**
+	 * Retire les coordonnées doublons 
+	 * 
+	 * @param listCoords
+	 * @return
+	 */
 	public List<Coordonnees> merge(List<Coordonnees> listCoords) {
 		int i = 0;
 		while (i < listCoords.size() - 1) {

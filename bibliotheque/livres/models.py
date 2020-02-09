@@ -83,5 +83,11 @@ class Classement(models.Model):
 	betweenness = models.TextField()
 	pagerank = models.TextField()
 
+class Indexing(models.Model):
+	mot = models.TextField()
+	index = ArrayField(models.IntegerField())
+
+
+
 
 		
