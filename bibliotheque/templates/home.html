@@ -7,5 +7,25 @@
 <input class="btn" type="submit" name="Save"/>
 </form>
 <p>Il y a {{count}} livres  au total dans la bibliothèque</p>
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBy20KolR9NI7PWtdo5_7agQ_OSmvVIoCI",
+    authDomain: "bibliotheque-a8d69.firebaseapp.com",
+    databaseURL: "https://bibliotheque-a8d69.firebaseio.com",
+    projectId: "bibliotheque-a8d69",
+    storageBucket: "bibliotheque-a8d69.appspot.com",
+    messagingSenderId: "359064577418",
+    appId: "1:359064577418:web:102477060e575ccd77d473",
+    measurementId: "G-S71D8M6V1X"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  const db  = firebase.firestore();
+  db.settings({timestampsInSnapshots : true})
+</script>
 </div>
  {%endblock%}

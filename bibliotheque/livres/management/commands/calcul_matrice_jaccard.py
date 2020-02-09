@@ -19,19 +19,15 @@ class Command(BaseCommand):
 		self.stdout.write('Calculating the matrix Jaccard ... ')
 
 		matrice_dis = calcul_distance(list_id)
-		# for k,value in matrice_dis.items():
-		# 	id1,id2 = k 
-		# 	case = MatriceDistance()
-		# 	case.id_ligne = id1
-		# 	case.id_colonne = id2 
-		# 	case.value = value 
-		# 	case.save()
-		self.stdout.write('The matrix Jaccard has been generated successfully')
-
-
-
-		self.stdout.write('Sorting by betweeness ...')
-
+		for k,value in matrice_dis.items():
+		 	id1,id2 = k 
+		 	case = MatriceDistance()
+		 	case.id_ligne = id1
+		 	case.id_colonne = id2 
+		 	case.value = value 
+		 	case.save()
+        self.stdout.write('The matrix Jaccard has been generated successfully')
+        self.stdout.write('Sorting by betweeness ...')
 		betweeness_map = calcul_betweenness(list_id,matrice_dis,0.75)
 		for k,v in betweeness_map.items():
 			print('k = ',k,"v=", v)

@@ -45,6 +45,7 @@ public class BookServlet extends HttpServlet {
 			if (CheckInput.isAlphabetic(regExp)) {
 				res = jdbc.getRadixBooksResult(regExp).stream().distinct().collect(Collectors.toList()); ;
 			} else if (CheckInput.isRegExp(regExp)) {
+				System.out.println("regExp");
 				res = jdbc.getAutomataBooksResult(regExp);
 			}
 		Collections.sort(res);
