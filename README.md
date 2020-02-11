@@ -1,6 +1,6 @@
 ## Moteur de recherche d’une bibliotheque.
 
-Dans ce projet, on appelle bibliotheque toute base de données de taille
+Dans ce projet, on appelle bibliotheque toute bases de données de taille
 assez consequente de documents textuels. Un tel exemple est la base de Gutenberg disponible à l’adresse suivante : 
 http://www.gutenberg.org/ ou les documents sont présentés sous différentes formes, dont le format textuel. A
 l’instar de la base Gutenberg, une bibliotheque peut contenir des dizaines de milliers de documents, rendant une recherche
@@ -9,7 +9,25 @@ l’utilisateur d’acceder plus rapidement à un document textuel par recherche
 en lien avec ce document (systeme de best-seller, de suggestion de publicite ciblée, de favoris utilisateur, et cetera). 
 
 ## Manuel
-Tout d'abord, il faut lancer le server postgresSQL sur une database 'postgres'.
+
+Le projet est séparé en 2 parties : la partie Python se trouve dans le dossier Bibliothèque, et la partie Java se trouve dans le projet BooksAPI.
+
+Python
+
+
+Installation de PostgreSQL
+
+1. Installer PostgreSQL (la version 10 suffit) et le lancer.
+2. Passer sur l'utilisateur 'postgres' avec :
+```
+sudo su -l postgres
+```
+3. Lancer un terminal interactif avec "psql"
+4. Une fois dedans, changer le mot de passe de l'utilisateur postgres pour "daar" avec :
+```
+\password
+```
+Lancement de l'application Django
 
 Dans le terminal, on fait
 ```bash
@@ -38,26 +56,7 @@ pour nettoyer les données dans model MatriceDistance et Classement:
 python manage.py clean 
 ```
 
+Java
 
-Configuration Eclipse TomCat 9.0
-
-Eclipse
-
-1. Télécharger Eclipse IDE - for Entrerpise J2EE après téléchargement d'eclipse installer
-
-Tomcat 9.0
-
-1. Installer les sources de tomcat 9.0
-2. Créer un nouveau serveur Tomcat 9.0   (File -> New -> Other -> Server) pointant vers les sources de tomcat et le jdk (1.8)
-
-Création projet :
-
-File -> New -> Dynamic Web Project
-
-Choisir Apache Tomcat v9.0 pour TargetRuntime -> Next -> Next : cocher generate web.xml deployment descriptor
-
-## Rendu
-
-à rendre 03 fevrier 
-petite presentation sur ce que on a fait/on n'a pas fait 20/01 
-
+1. Installer Tomcat 9.0
+2. Déployer le WAR fourni sur Tomcat. L'intialisation peut être longue.
