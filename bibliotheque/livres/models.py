@@ -36,7 +36,7 @@ class LivreManager(models.Manager):
 			print("result length",len(result))
 		if methode == "betweenness":
 		# recuperer betweenness list
-			json_list_b = Classement.objects.all()[1].betweenness
+			json_list_b = Classement.objects.all()[0].betweenness
 			betweenness_list = jsonDec.decode(json_list_b)
 			result = []
 			for c in betweenness_list:
