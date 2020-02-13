@@ -5,15 +5,15 @@ import collections
 import requests
 import json
 from algo.betweenness import calcul_betweenness 
-
+from algo.pagerank import calcul_pagerank
 
 
 class Command(BaseCommand):
-	help = 'calculer la matrice de distance Jaccard entre les livres'
+	help = 'calculer la matrice de distance Jaccard entre les livres et les classement'
 
 	
 	def handle(self,*args,**kwargs):
-		# seuil = 0.7
+		seuil = 0.7
 		list_id = Livre.objects.values_list('id',flat=True) #flat True indique il returne seulement un value
 
 		self.stdout.write('Calculating the matrix Jaccard ... ')
@@ -26,16 +26,14 @@ class Command(BaseCommand):
 		 	case.id_colonne = id2 
 		 	case.value = value 
 		 	case.save()
-        self.stdout.write('The matrix Jaccard has been generated successfully')
-        self.stdout.write('Sorting by betweeness ...')
+		self.stdout.write('The matrix Jaccard has been generated successfully')
+		self.stdout.write('Sorting by betweeness ...')
 		betweeness_map = calcul_betweenness(list_id,matrice_dis,0.75)
-		for k,v in betweeness_map.items():
-			print('k = ',k,"v=", v)
-		# closeness_map = calcul_closeness(list_id,matrice_plus_court)
+		# for k,v in betweeness_map.items():
+		# 	print('k = ',k,"v=", v)
 		l_between = sorted(betweeness_map.items(), key = lambda x: x[1],reverse = True)
 		print("between ",l_between)
 		l_between = [i[0] for i in l_between]
-		# classement.save()
 		self.stdout.write('The Sorting of betweeness has been caculated successfully')
 
 		# matrice contenant le poids minimal entre deux sommets
@@ -50,11 +48,17 @@ class Command(BaseCommand):
 		l_close = [i[0] for i in l_close ]
 		self.stdout.write('The Sorting of closeness has been caculated successfully')
 
+		self.stdout.write('Sorting by pagerank ...')
+		pagerank_map = calcul_pagerank(list_id,matrice_dis,seuil,0.15)
+		l_page = sorted(pagerank_map.items(), key = lambda x: x[1],reverse = True)
+		l_page = [i[0] for i in l_page ]
+		self.stdout.write('The Sorting of pagerank has been caculated successfully')
 
 
 		classement = Classement()
 		classement.betweenness = json.dumps(l_between)
 		classement.closeness = json.dumps(l_close)
+		classement.pagerank = json.dumps(l_page)
 		classement.save()
 
 

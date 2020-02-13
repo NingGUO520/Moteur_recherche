@@ -45,9 +45,17 @@ class LivreManager(models.Manager):
 			print("result length",len(result))
 
 		if methode == 'pagerank':
+		# recuperer pagerank list
+			json_list_p = Classement.objects.all()[0].pagerank
+			pagerank_list = jsonDec.decode(json_list_p)
 			result = []
+			for c in pagerank_list:
+				if int(c) in livres_id:
+					result.append(c)
+			print("result length",len(result))	
 
 		return result
+
 
 
 
